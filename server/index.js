@@ -22,9 +22,11 @@ app.use(cookieParser());
 // Browser blocks cross-origin requests by default
 //            ↓
 // CORS allows communication with Backend (localhost:5000)
+const allowedOrigin = process.env.CLIENT_URL;
+
 app.use(
   cors({
-    origin: "http://localhost:5173", // Vite development server
+    origin: allowedOrigin, // Vite development server
     credentials: true,               // Allow cookies to be sent
   })
 );
