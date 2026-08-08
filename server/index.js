@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.routes.js";
+import pathRoutes from "./routes/paths.js";
 
 dotenv.config();
 const app = express();
@@ -33,6 +34,7 @@ app.use(
 connectDB();
 // Authentication Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/paths", pathRoutes);
 
 // Health Check Route
 app.get("/api/health", (req, res) => {

@@ -1,31 +1,38 @@
 import mongoose from "mongoose";
-// import User from "./User";
 
 const pathSchema = new mongoose.Schema(
-    {
-        title:{
-            type: String,
-            required: true,
-            trim: true,
-        },
-        description:{
-            type: String,
-            default: ""
-        },
-        owner:{
-            type:mongoose.Schema.Types.ObjectId,   //it tells Mongoose to store a 12-byte binary identifier instead of an entire embedded document string.
-            ref: "User",
-            required: true
-        },
-        isPublic: {
-            type: Boolean,
-            default: false
-        },
+  {
+    title: {
+      type: String,
+      required: [true, "Title is required"],
+      minlength: [5, "Title must be at least 5 characters"],
+      maxlength: [100, "Title must be less than 100 characters"],
+      trim: true,
     },
-    {
-        timestamps: true
-    }
+
+    description: {
+      type: String,
+      maxlength: [500, "Description must be less than 500 characters"],
+      default: "",
+    },
+
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+
+    visibility: {
+      type: String,
+      enum: ["public", "private"],
+      default: "public",
+    },
+  },
+  {
+    timestamps: true,
+  }
 );
 
 const Path = mongoose.model("Path", pathSchema);
+
 export default Path;
