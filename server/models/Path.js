@@ -1,5 +1,29 @@
 import mongoose from "mongoose";
 
+const edgeSchema = new mongoose.Schema(
+  {
+    id: {
+      type: String,
+      required: true,
+    },
+
+    source: {
+      type: String,
+      required: true,
+    },
+
+    target: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    _id: false,
+  }
+);
+
+
+
 const pathSchema = new mongoose.Schema(
   {
     title: {
@@ -26,6 +50,11 @@ const pathSchema = new mongoose.Schema(
       type: String,
       enum: ["public", "private"],
       default: "public",
+    },
+
+    edges: {
+      type: [edgeSchema],
+      default: [],
     },
   },
   {

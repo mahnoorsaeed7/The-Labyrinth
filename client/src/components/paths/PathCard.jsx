@@ -1,3 +1,6 @@
+import { Link } from "react-router";
+
+
 export default function PathCard({ path }) {
   return (
     <article>
@@ -8,6 +11,10 @@ export default function PathCard({ path }) {
       </p>
 
       <p>Visibility: {path.visibility}</p>
+
+      <Link to={`/path/${path._id}`}>
+        Open Path
+      </Link>
     </article>
   );
 }

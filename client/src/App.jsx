@@ -6,7 +6,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import ProtectedRoute from './components/ProtectedRoute';
-
+import PathEditorPage from './pages/PathEditorPage';
 
 export default function App() {
   // Create a state variable named "status".
@@ -56,6 +56,15 @@ export default function App() {
                   <DashboardPage />
                 </ProtectedRoute>
               } 
+            />
+
+            <Route
+              path='/path/:id'
+              element={
+                <ProtectedRoute>
+                  <PathEditorPage/>
+                </ProtectedRoute>
+              }
             />
           </Routes>
         </BrowserRouter>

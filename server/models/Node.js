@@ -18,6 +18,7 @@ const nodeSchema = new mongoose.Schema(
         },
         parentNode: {
             type: mongoose.Schema.Types.ObjectId,
+            //special 12-byte value used as a primary key in MongoDB.
             ref: "Node",
             default: null,
         },
