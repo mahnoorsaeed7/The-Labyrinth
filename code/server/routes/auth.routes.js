@@ -6,33 +6,21 @@ import { requireAuthorization } from "../middleware/auth.middleware.js";
 const router = express.Router();
 
 function sendTokenCookie(res, userId) {
+ 
   const token = jwt.sign(
-    { id: userId },
-    process.env.JWT_SECRET,
+    { id: userId }, 
+    process.env.JWT_SECRET, 
     { expiresIn: "7d" }
   );
 
-  const isProduction = process.env.NODE_ENV === "production";
-
+  // TODO 2: Send the token inside a secured cookie
   res.cookie("token", token, {
-    httpOnly: true,
-    // production must use HTTPS-only cookies
-    secure: isProduction,
-    sameSite: "lax",
-    // choose the sameSite value appropriate for
-    // your actual frontend/backend origin relationship
-
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-    path: "/",
+    httpOnly: true,                         // Prevents XSS attacks (JS cannot read the cookie)
+    secure: process.env.NODE_ENV === "production", // Sends cookie over HTTPS only in production
+    sameSite: "lax",                        // Helps protect against CSRF attacks
+    maxAge: 7 * 24 * 60 * 60 * 1000         // Tells the browser to delete it after 7 days (in ms)
   });
 }
-//   // TODO 2: Send the token inside a secured cookie
-//   res.cookie("token", token, {
-//     httpOnly: true,                         // Prevents XSS attacks (JS cannot read the cookie)
-//     secure: process.env.NODE_ENV === "production", // Sends cookie over HTTPS only in production
-//     sameSite: "lax",                        // Helps protect against CSRF attacks
-//     maxAge: 7 * 24 * 60 * 60 * 1000         // Tells the browser to delete it after 7 days (in ms)
-//   });
 
 router.post("/register", async(req , res) => {
     try {

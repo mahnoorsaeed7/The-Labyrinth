@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from "motion/react";
 import { useAuth } from "../context/AuthContext";
 import Starfield from "../components/Starfield";
 
+const API_URL = import.meta.env.VITE_API_URL || "";
+
 const EXAMPLE_PATHS = [
   "Learn MERN",
   "Study Abroad",
@@ -19,28 +21,50 @@ export default function LandingPage() {
   const [isZooming, setIsZooming] = useState(false);
 
   function handleChipClick(label) {
-    // TODO:
-    // 1. Store the clicked label.
+  
     setSelectedChip(label);
-    // 2. Start the zoom transition.
     setIsZooming(true);
-    // 3. Do NOT navigate yet.
-    // label.prevent.defaultl
 
   }
+//------------------------------------------------------------------------------------------------------------------------
+async function handleTransitionComplete() {
+  if (!user) {
+    navigate("/register");
+    return;
+  }
 
-  function handleTransitionComplete() {
-    // TODO:
-    // 1. Check whether user exists.
-    if(!user){
-        navigate("/register");
-        return;
+  try {
+    const response = await fetch(`${API_URL}/api/paths`, {
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      console.error("Failed to fetch paths");
+      navigate("/dashboard");
+      return;
     }
-    // 2. Authenticated → /dashboard
-    // 3. Anonymous → /register
+
+    const paths = await response.json();
+
+    const selectedPath = paths.find(
+      (path) => path.title === selectedChip
+    );
+
+    if (!selectedPath) {
+      console.error(
+        `Path "${selectedChip}" was not found.`
+      );
+      navigate("/dashboard");
+      return;
+    }
+
+    navigate(`/path/${selectedPath._id}`);
+  } catch (error) {
+    console.error("Failed to load selected path:", error);
     navigate("/dashboard");
   }
-
+}
+//------------------------------------------------------------------------------------------------------------------------
      return (
     <main className="relative min-h-screen select-none bg-black text-white overflow-hidden">
       <Starfield />
@@ -59,15 +83,11 @@ export default function LandingPage() {
                      "radial-gradient(circle, white 0%, rgba(255,255,255,0.6) 25%, transparent 70%)",
                 }}
                 animate={{
-                    // TODO:
-                    // Animate scale between approximately 1 and 1.08.
+                  
                     scale: [1, 1.08],
                 }}
                 transition={{
-                    // TODO:
-                    // Make the animation repeat forever.
-                    // Reverse direction each cycle.
-                    duration:2,
+                 
                     repeat: Infinity,
                     repeatType: "reverse",
                 }}

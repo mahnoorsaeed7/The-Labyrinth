@@ -176,79 +176,41 @@ function handleKeyDown(event) {
     return <div>Path could not be loaded.</div>;
   }
 
-return (
-  <main className="min-h-screen bg-black text-white">
+  return (
+    <main>
+      <header>
+        <h1>{path.title}</h1>
+        <p>{path.description}</p>
 
-    <header className="border-b border-zinc-900 bg-black/90 px-4 py-5 sm:px-6">
-
-      <div className="mx-auto flex max-w-7xl flex-col gap-5">
-
-        <div className="min-w-0">
-          <p className="text-xs uppercase tracking-[0.3em] text-zinc-600">
-            Path Editor
-          </p>
-
-          <h1 className="mt-2 truncate text-2xl font-light sm:text-3xl">
-            {path.title}
-          </h1>
-
-          {path.description && (
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">
-              {path.description}
-            </p>
-          )}
-        </div>
-
-        <div className="flex flex-wrap gap-3">
-
-          <button
-            onClick={handleAddNode}
-            className="rounded-xl border border-zinc-800 px-4 py-2.5 text-sm text-zinc-200 transition hover:border-zinc-600 hover:bg-zinc-900"
-          >
+        <div>
+          <button onClick={handleAddNode}>
             Add Node
           </button>
 
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="rounded-xl bg-white px-4 py-2.5 text-sm font-medium text-black transition hover:bg-zinc-200 disabled:opacity-50"
-          >
-            {saving ? "Saving..." : "Save Graph"}
+          <button onClick={handleSave} disabled={saving}>
+            {saving ? "Saving..." : "Save"}
           </button>
-
         </div>
 
-        {message && (
-          <p className="text-sm text-zinc-400">
-            {message}
-          </p>
-        )}
+        {message && <p>{message}</p>}
+      </header>
 
-      </div>
-    </header>
-
-    <section className="mx-auto max-w-7xl p-3 sm:p-5">
-
-      <div className="h-[calc(100vh-220px)] min-h-[500px] overflow-hidden rounded-2xl border border-zinc-900 bg-zinc-950">
+        <div style={{ width: "100%", height: "600px" }}>
 
         <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onKeyDown={handleKeyDown}
-          fitView
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        onKeyDown={handleKeyDown}
+        fitView
         >
-          <Background />
-          <Controls />
+            <Background />
+            <Controls />
         </ReactFlow>
-
-      </div>
-
-    </section>
-
-  </main>
-);
+        </div> 
+    </main>
+  );
 }

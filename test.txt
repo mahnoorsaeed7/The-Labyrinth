@@ -1,0 +1,33 @@
+user beta
+{
+  "username": "beta",
+  "email": "beta@example.com",
+  "password": "12345678"
+}
+
+{
+  "title": "Learn MERN",
+  "description": "My path through MongoDB, Express, React and Node",
+  "visibility": "private"
+}
+
+
+---------------------------------------------------------------------
+{
+  "username": "gamag",
+  "email": "gamag@example.com",
+  "password": "12345678"
+}
+---------------------------------------------------------------------
+user alpha
+{
+  "username": "alpha",
+  "email": "alpha@example.com",
+  "password": "12345678"
+}
+
+{
+  "title": "Learn python",
+  "description": "My path through flask ,numpy",
+  "visibility": "private"
+}

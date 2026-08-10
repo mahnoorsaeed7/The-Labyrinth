@@ -7,7 +7,6 @@ import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import PathEditorPage from './pages/PathEditorPage';
-import ColdStartGate from "./components/ColdStartGate";
 
 export default function App() {
   // Create a state variable named "status".
@@ -31,39 +30,46 @@ export default function App() {
       });
   }, []);
 
-return (
-  <ColdStartGate>
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
+  return (
+    <>
+      {/* <h1 className="text-4xl font-bold">
+        Labyrinth
+      </h1> */}
+      {/* Top Banner for Server Status */}
+      <div className="bg-black text-white p-2 text-center border-b border-zinc-800">
+        <p className="text-sm font-mono">{status}</p>
+      </div>
 
-          {/* Public */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />            
+            <Route path="/register" element={<RegisterPage />} />   
 
-          {/* Protected */}
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <DashboardPage />
-              </ProtectedRoute>
-            }
-          />
+            {/* Protected Routes component wrapper approach */}
+            <Route 
+              path="/dashboard" 
+              element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              } 
+            />
 
-          <Route
-            path="/path/:id"
-            element={
-              <ProtectedRoute>
-                <PathEditorPage />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path='/path/:id'
+              element={
+                <ProtectedRoute>
+                  <PathEditorPage/>
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
 
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
-  </ColdStartGate>
-);
+    </>
+  );
 }

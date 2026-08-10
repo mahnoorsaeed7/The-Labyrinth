@@ -35,39 +35,72 @@ export default function LoginForm() {
     }
   }
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* Email Field */}
-      <div>
-        <label htmlFor="email">Email</label>
-        <input 
-          type="email"
-          id="email"
-          placeholder="Enter Email"
-          {...register("email")} 
-        />
-        {errors.email && <p style={{ color: "red" }}>{errors.email.message}</p>}
+return (
+  <form
+    onSubmit={handleSubmit(onSubmit)}
+    className="space-y-5"
+  >
+
+    <div>
+      <label
+        htmlFor="email"
+        className="mb-2 block text-sm text-zinc-600"
+      >
+        Email
+      </label>
+
+      <input
+        type="email"
+        id="email"
+        placeholder="you@example.com"
+        {...register("email")}
+        className="w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none transition placeholder:text-zinc-700 focus:border-zinc-500"
+      />
+
+      {errors.email && (
+        <p className="mt-2 text-sm text-red-400">
+          {errors.email.message}
+        </p>
+      )}
+    </div>
+
+    <div>
+      <label
+        htmlFor="password"
+        className="mb-2 block text-sm text-zinc-300"
+      >
+        Password
+      </label>
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Enter your password"
+        {...register("password")}
+        className="w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none transition placeholder:text-zinc-700 focus:border-zinc-500"
+      />
+
+      {errors.password && (
+        <p className="mt-2 text-sm text-red-400">
+          {errors.password.message}
+        </p>
+      )}
+    </div>
+
+    {serverError && (
+      <div className="rounded-xl border border-red-900/60 bg-red-950/30 px-4 py-3 text-sm text-red-300">
+        {serverError}
       </div>
+    )}
 
-      {/* Password Field */}
-      <div>
-        <label htmlFor="password">Password</label>
-        <input 
-          type="password"
-          id="password"
-          placeholder="Enter Password"
-          {...register("password")} 
-        />
-        {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
-      </div>
+    <button
+      type="submit"
+      disabled={isSubmitting}
+      className="w-full rounded-xl bg-white px-4 py-3 text-sm font-medium text-black transition hover:bg-zinc-400 disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      {isSubmitting ? "Entering..." : "Enter the Labyrinth"}
+    </button>
 
-      {/* Server Error Display */}
-      {serverError && <p style={{ color: "red", fontWeight: "bold" }}>{serverError}</p>}
-
-      {/* Submit Button */}
-      <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Logging in..." : "Login"}
-      </button>
-    </form>
-  );
+  </form>
+);
 }

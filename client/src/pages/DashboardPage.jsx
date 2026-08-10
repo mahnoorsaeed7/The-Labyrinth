@@ -48,26 +48,67 @@ export default function DashboardPage() {
     return <p>Error loading dashboard: {error}</p>;
   }
 
-  return (
-    <main>
-      <h1>Dashboard</h1>
-      <p>Welcome, {user?.email}</p>
-      <button onClick={logout}>Logout</button>
+return (
+  <main className="min-h-screen bg-black px-4 py-8 text-white sm:px-6 lg:px-8">
 
+    <div className="mx-auto max-w-6xl">
 
-       <CreatePathForm onCreated={handlePathCreated} />
+      <header className="mb-10 flex flex-col gap-5 border-b border-zinc-900 pb-8 sm:flex-row sm:items-end sm:justify-between">
 
-      {paths.length === 0 ? (
         <div>
-          <h2>No Path yet</h2>
-          <p>
-            You haven't created any Paths yet. Create your first Path using the
-            form above to begin your journey.
+          <p className="text-xs uppercase tracking-[0.3em] text-zinc-600">
+            Your Labyrinth
+          </p>
+
+          <h1 className="mt-2 text-3xl font-light tracking-tight sm:text-4xl">
+            Paths
+          </h1>
+
+          <p className="mt-2 text-sm text-zinc-500">
+            Welcome back, {user?.username || user?.email}
           </p>
         </div>
+
+        <button
+          onClick={logout}
+          className="rounded-xl border border-zinc-800 px-4 py-2 text-sm text-zinc-300 transition hover:border-zinc-600 hover:text-white"
+        >
+          Logout
+        </button>
+
+      </header>
+
+      <section className="mb-10 rounded-2xl border border-zinc-900 bg-zinc-950/60 p-5 sm:p-6">
+        <div className="mb-5">
+          <h2 className="text-lg font-medium">
+            Uncover a new path
+          </h2>
+
+          <p className="mt-1 text-sm text-zinc-500">
+            Turn a complex goal into an explorable network.
+          </p>
+        </div>
+
+        <CreatePathForm onCreated={handlePathCreated} />
+      </section>
+
+      {paths.length === 0 ? (
+        <section className="rounded-2xl border border-dashed border-zinc-800 px-6 py-16 text-center">
+          <p className="text-xs uppercase tracking-[0.3em] text-zinc-600">
+            No paths yet
+          </p>
+
+          <h2 className="mt-3 text-xl font-light">
+            Your Labyrinth is empty.
+          </h2>
+
+          <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-zinc-500">
+            Create your first Path above and begin mapping the decisions
+            that lead toward your goal.
+          </p>
+        </section>
       ) : (
-        <section>
-          
+        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {paths.map((path) => (
             <PathCard
               key={path._id || path.id}
@@ -76,6 +117,8 @@ export default function DashboardPage() {
           ))}
         </section>
       )}
-    </main>
-  );
+
+    </div>
+  </main>
+);
 }

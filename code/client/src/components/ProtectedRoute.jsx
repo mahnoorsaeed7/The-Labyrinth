@@ -5,18 +5,8 @@ export default function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
 
   if (loading) {
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-black px-6 text-white">
-      <div className="text-center">
-        <div className="mx-auto h-10 w-10 animate-pulse rounded-full bg-white/80" />
-
-        <p className="mt-5 text-sm text-zinc-500">
-          Restoring your path...
-        </p>
-      </div>
-    </main>
-  );
-}
+     return <div>Loading...</div>;
+  }
 // replace keyword wipes the private URL from their back-button history so they do not get stuck in a back-button loop.
   if (!user) {
    return <Navigate to="/login" replace/>;
