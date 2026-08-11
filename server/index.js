@@ -12,14 +12,22 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-// CORS: allow both local and production origins
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://labyrinth-client.vercel.app'
-];
+// CORS: allow local and production origins, including Vercel preview URLs
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      const allowedOrigins = [
+        'http://localhost:5173',
+        'https://labyrinth-client.vercel.app',
+        process.env.CLIENT_URL
+      ];
+      // Allow if origin is in the list, or if it's a Vercel preview domain, or if no origin (e.g. server-to-server)
+      if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
   })
 );

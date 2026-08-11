@@ -18,7 +18,7 @@ function sendTokenCookie(res, userId) {
     httpOnly: true,
     // production must use HTTPS-only cookies
     secure: isProduction,
-    sameSite: "lax",
+    sameSite: isProduction ? "none" : "lax",
     // choose the sameSite value appropriate for
     // your actual frontend/backend origin relationship
 
@@ -117,7 +117,7 @@ router.post("/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     path: "/"  // cookie is accessible across your entire website
   });
   
