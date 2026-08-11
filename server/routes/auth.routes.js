@@ -12,19 +12,17 @@ function sendTokenCookie(res, userId) {
     { expiresIn: "7d" }
   );
 
-  const isProduction = process.env.NODE_ENV === "production";
+  const isProduction = process.env.NODE_ENV === "production" || process.env.VERCEL === "1" || !!process.env.VERCEL_URL;
 
   res.cookie("token", token, {
     httpOnly: true,
     // production must use HTTPS-only cookies
     secure: isProduction,
     sameSite: isProduction ? "none" : "lax",
-    // choose the sameSite value appropriate for
-    // your actual frontend/backend origin relationship
-
     maxAge: 7 * 24 * 60 * 60 * 1000,
     path: "/",
   });
+  return token;
 }
 //   // TODO 2: Send the token inside a secured cookie
 //   res.cookie("token", token, {
@@ -114,10 +112,11 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/logout", (req, res) => {
+  const isProduction = process.env.NODE_ENV === "production" || process.env.VERCEL === "1" || !!process.env.VERCEL_URL;
   res.clearCookie("token", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
     path: "/"  // cookie is accessible across your entire website
   });
   
