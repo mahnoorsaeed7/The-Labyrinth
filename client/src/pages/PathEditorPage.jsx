@@ -32,7 +32,10 @@ export default function PathEditorPage() {
   useEffect(() => {
     async function loadPath() {
       try {
+        const token = localStorage.getItem("token");
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
         const response = await fetch(`${API_URL}/api/paths/${id}`, {
+          headers,
           credentials: "include",
         });
 
@@ -136,13 +139,14 @@ function handleKeyDown(event) {
       setSaving(true);
       setMessage("");
 
+      const token = localStorage.getItem("token");
       const response = await fetch(`${API_URL}/api/paths/${id}`, {
         credentials: "include",
         // FIX: The backend route is PUT /api/paths/:id, not POST.
         method: "PUT",
         headers: {
-          // FIX: headers must be an object and the Content-Type must be a string.
           "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         // FIX: fetch requires the request body to be a string.
         body: JSON.stringify({

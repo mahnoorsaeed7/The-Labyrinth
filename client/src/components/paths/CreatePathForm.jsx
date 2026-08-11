@@ -38,11 +38,14 @@ export default function CreatePathForm({ onCreated }) {
   async function onSubmit(data) {
     setServerError(null);
     try {
+      const token = localStorage.getItem("token");
+      const headers = {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      };
       const response = await fetch(`${API_URL}/api/paths`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify(data),
         credentials: "include",
       });

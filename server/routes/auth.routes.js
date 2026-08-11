@@ -55,12 +55,13 @@ router.post("/register", async(req , res) => {
             email,
             password
         });
-        sendTokenCookie(res , newUser._id);
+        const token = sendTokenCookie(res , newUser._id);
 
         return res.status(201).json({
             id: newUser._id,
             username: newUser.username,
-            email: newUser.email
+            email: newUser.email,
+            token
         });
 
     } catch (err) {
@@ -94,12 +95,13 @@ router.post("/login", async (req, res) => {
             });
         }
 
-        sendTokenCookie(res, user._id);
+        const token = sendTokenCookie(res, user._id);
 
         return res.status(200).json({
             id: user._id,
             username: user.username,
-            email: user.email
+            email: user.email,
+            token
         });
 
     } catch (err) {

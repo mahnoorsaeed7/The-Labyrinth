@@ -16,14 +16,17 @@ export default function DashboardPage() {
   useEffect(() => {
     async function loadPaths() {
       try {
+        const token = localStorage.getItem("token");
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
         const response = await fetch(`${API_URL}/api/paths`, {
           method: "GET",
+          headers,
           credentials: "include",
         });
 
         if (!response.ok) {
           const errorPath = await response.json().catch(() => ({}));
-          throw new Error(errorPath.message || "Could not get the Path");
+          throw new Error(errorPath.message || errorPath.error || "Could not get the Path");
         }
 
         const dataPath = await response.json();

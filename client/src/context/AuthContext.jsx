@@ -12,7 +12,10 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const checkAuth = async () => {
       try {
+        const token = localStorage.getItem("token");
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
         const response = await fetch(`${API_URL}/api/auth/me`, {
+          headers,
           credentials: "include",
         });
 
@@ -45,10 +48,13 @@ export function AuthProvider({ children }) {
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       // Fixed typo: "Resgistraion" -> "Registration"
-      throw new Error(errorData.message || "Registration failed");
+      throw new Error(errorData.message || errorData.error || "Registration failed");
     }
 
     const data = await response.json();
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+    }
     setUser(data);
     return data;
   }
@@ -63,21 +69,28 @@ export function AuthProvider({ children }) {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || "Login failed");
+      throw new Error(errorData.message || errorData.error || "Login failed");
     }
 
     const data = await response.json();
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+    }
     setUser(data);
     return data;
   }
 //logout
   async function logout() {
     try {
+      const token = localStorage.getItem("token");
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
       await fetch(`${API_URL}/api/auth/logout`, {
         method: "POST",
+        headers,
         credentials: "include",
       });
     } finally {
+      localStorage.removeItem("token");
       setUser(null);
     }
   }
