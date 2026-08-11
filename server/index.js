@@ -32,17 +32,17 @@ app.use(
   })
 );
 
-// Connect to MongoDB (await inside async function)
-const start = async () => {
+// Database connection middleware to ensure MongoDB connection is ready before handling requests
+app.use(async (req, res, next) => {
+  if (req.path === '/api/health') return next();
   try {
     await connectDB();
-    console.log('Database connected');
+    next();
   } catch (err) {
     console.error('Failed to connect to database:', err);
-    // In serverless, we don't exit, just log – Vercel will handle the error
+    res.status(500).json({ error: 'Database connection failed' });
   }
-};
-start();
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
