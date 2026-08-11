@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {
   ReactFlow,
   Background,
@@ -19,6 +19,7 @@ const nodeTypes = {
 
 export default function PathEditorPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -154,6 +155,10 @@ function handleKeyDown(event) {
       // It does not send a response or set a message.
       if (response.ok) {
         setMessage("Successfully saved");
+
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 700);
       } else {
         setMessage("Failed to save");
       }
@@ -200,7 +205,13 @@ return (
         </div>
 
         <div className="flex flex-wrap gap-3">
-
+          <button
+            type="button"
+            onClick={() => navigate("/dashboard")}
+            className="rounded-xl border border-zinc-800 px-4 py-2.5 text-sm text-zinc-400 transition hover:border-zinc-600 hover:text-white"
+          >
+            ← Dashboard
+          </button>
           <button
             onClick={handleAddNode}
             className="rounded-xl border border-zinc-800 px-4 py-2.5 text-sm text-zinc-200 transition hover:border-zinc-600 hover:bg-zinc-900"
@@ -213,7 +224,7 @@ return (
             disabled={saving}
             className="rounded-xl bg-white px-4 py-2.5 text-sm font-medium text-black transition hover:bg-zinc-200 disabled:opacity-50"
           >
-            {saving ? "Saving..." : "Save Graph"}
+            {saving ? "Saving..." : "Save Graph & Return"}
           </button>
 
         </div>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { useAuth } from "../context/AuthContext";
 import PathCard from "../components/paths/PathCard";
 import CreatePathForm from "../components/paths/CreatePathForm";
@@ -10,6 +11,7 @@ export default function DashboardPage() {
   const [paths, setPaths] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function loadPaths() {
@@ -68,12 +70,19 @@ return (
             Welcome back, {user?.username || user?.email}
           </p>
         </div>
-
+       
         <button
           onClick={logout}
           className="rounded-xl border border-zinc-800 px-4 py-2 text-sm text-zinc-300 transition hover:border-zinc-600 hover:text-white"
         >
           Logout
+        </button>
+         <button
+          type="button"
+          onClick={() => navigate("/")}
+          className="rounded-xl border border-zinc-800 px-4 py-2.5 text-sm text-zinc-400 transition hover:border-zinc-600 hover:text-white"
+        >
+          ← Landing
         </button>
 
       </header>

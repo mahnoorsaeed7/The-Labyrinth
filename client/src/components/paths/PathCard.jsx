@@ -24,7 +24,7 @@ return (
         to={`/path/${path._id}`}
         className="inline-flex w-full items-center justify-center rounded-xl border border-zinc-800 px-4 py-2.5 text-sm text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-900"
       >
-        Open Path
+       Open Task Board
       </Link>
     </div>
 
