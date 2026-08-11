@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://labyrinth-server.vercel.app/api/$1"
+    }
+  ]
+}
