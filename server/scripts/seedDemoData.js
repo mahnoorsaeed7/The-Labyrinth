@@ -1,7 +1,6 @@
 import dns from "node:dns";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-// import bcrypt from "bcryptjs";
 
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 

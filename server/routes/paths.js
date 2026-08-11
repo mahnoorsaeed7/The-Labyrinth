@@ -9,7 +9,10 @@ const router = express.Router();
 router.get("/", requireAuthorization, async (req, res) => {
   try {
     const paths = await Path.find({
-      owner: req.user.id
+      $or: [
+        { owner: req.user.id },
+        { visibility: "public" }
+      ]
     });
 
     return res.json(paths);
@@ -70,7 +73,7 @@ router.get("/:id", requireAuthorization, async (req, res) => {
       });
     }
 
-    if (path.owner.toString() !== req.user.id) {
+    if (path.owner.toString() !== req.user.id && path.visibility !== "public") {
       return res.status(403).json({ message: "You do not own this path" });
     }
 
